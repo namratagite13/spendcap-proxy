@@ -84,7 +84,7 @@ const respondWithFreshResults = (res, result, usage, warning, startTime) =>{
 
 
 const handleGenerate = async(req, res, next) =>{
-
+    console.log('!!!!!!!!!!!! HANDLE GENERATE WAS CALLED !!!!!!!!!!!!');
     const startTime = Date.now();
 
     try{
@@ -107,6 +107,7 @@ const handleGenerate = async(req, res, next) =>{
         };
 
         const updateBudget = await recordSpend(req.user?.id, usage);
+        logger.info(`[Gateway] DEBUG updateBudget=${JSON.stringify(updateBudget)}`);
         const warning = buildSoftLimitWarning(updateBudget);
         notifyIfWarning(req.user?.id, warning);
 
@@ -119,5 +120,8 @@ const handleGenerate = async(req, res, next) =>{
         next(error)
     }
 };
+
+
+
 
 module.exports = {handleGenerate}

@@ -6,7 +6,7 @@ const { config } = require('../config/env');
 
 const logger = require('../config/logger');
 
-const {getSoftLimitUSD} = require('../utils/budgetMath');
+const { getSoftLimitUSD } = require('../utils/budgetMath');
 
 
 const trackExecutionSpend = async(userId, costMetrics) =>{
