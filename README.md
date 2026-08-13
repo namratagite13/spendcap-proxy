@@ -1,8 +1,6 @@
 # gemini-spend-guard
 
-A drop-in proxy that caps what your Gemini API key can spend — with safety guardrails included.
-
-The API to save user from getting massive api bill, User can keep close eye on prompt token spend can set max budget limit and soft budget limit and get alerted when hitting any of it.
+A drop-in proxy that caps what your Gemini API key can spend — hard budget limits, soft-limit alerts, and caching, so a shared key can't blow your bill.  
 
 ## What it does
 
