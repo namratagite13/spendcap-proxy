@@ -1,4 +1,3 @@
-// src/middlewares/auth.middleware.js
 
 const { config } = require('../config/env');
 const logger = require('../config/logger');

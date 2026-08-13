@@ -37,9 +37,6 @@ redisClient.on('error', (err) =>{
     })
 });
 
-// redisClient.on('end', () =>{
-//     logger.warn('Redis connection closed')
-// });
 
 
 const connectRedis = async () =>{

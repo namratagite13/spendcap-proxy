@@ -2,7 +2,8 @@
 
 
 const { redisClient } = require('../config/redis');
-const { config } = require('../config/env')
+const { config } = require('../config/env');
+const {triggerHardLimitAlert} = require('../services/budgetAlert.service')
 const logger = require('../config/logger');
 const { getSoftLimitUSD, getPercentUSD } = require('../utils/budgetMath');
 
@@ -31,6 +32,9 @@ const checkSpendCap = async (req, res, next ) =>{
                 currentSpendUSD,
                 maxBudgetUSD,
             });
+            triggerHardLimitAlert(userId, { currentSpendUSD, maxBudgetUSD, percentUsed: 100 }).catch((err) =>
+                logger.error('[SpendCap] Failed to trigger hard limit alert', { error: err.message })
+            );
             return res.status(402).json({
                 success: false,
                 error: 'Monthly budget cap exceeded',
@@ -38,7 +42,7 @@ const checkSpendCap = async (req, res, next ) =>{
                 code: 'MONTHLY_BUDGET_EXCEEDED',
             });
         }
-        logger.info(`[SpendCap] DEBUG comparing currentSpendUSD=${currentSpendUSD} vs maxBudgetUSD=${maxBudgetUSD}`);
+
 
         if(currentSpendUSD >= softLimitUSD){
             const percentUsed = getPercentUSD(currentSpendUSD, maxBudgetUSD);

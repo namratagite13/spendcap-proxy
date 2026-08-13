@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-const morgan = require('morgan')
+
 
 const { redisClient, connectRedis } = require('./config/redis');
 const { config } = require('./config/env');
@@ -15,7 +15,7 @@ const { globalRateLimiter } = require('./middlewares/rateLimiter.middleware');
 const v1Routes = require('./routes/v1.routes');
 
 async function startServer() {
-  try {
+  try{
     await connectRedis();
 
     if (!redisClient.isOpen) {
@@ -27,7 +27,7 @@ async function startServer() {
     // Security & core middleware
     app.use(helmet());
     app.use(cors());
-    app.use(morgan('dev'))
+    
 
     // Parsers & global metrics
     app.use(express.json({ limit: '10kb' }));

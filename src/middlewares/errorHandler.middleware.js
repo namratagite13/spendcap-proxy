@@ -69,6 +69,3 @@ const errorHandler = (err, req, res, next) =>{
 }
 
 module.exports = {errorHandler}
-
-// Frontend Integration: It gives the frontend app a predictable field string (e.g., user.email) to attach validation error messages directly to individual form inputs.
-// Clean UI Messaging: detail.message.replace(/"/g, '') strips unnecessary quotes ("email" $\rightarrow$ email), producing clean UI display strings.

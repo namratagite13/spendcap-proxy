@@ -17,7 +17,7 @@ const validateGeneratePayload = (req, res, next) => {
     const { error, value } = generateSchema.validate(req.body, { abortEarly: false });
     
     if (error) {
-       return next(error) //errorhandler
+       return next(error) 
     }
     
     req.body = value; // Replace with sanitized/validated values

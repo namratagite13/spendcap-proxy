@@ -1,4 +1,4 @@
-// src/routes/v1.routes.js
+
 const express = require('express');
 const router = express.Router()
 
@@ -31,5 +31,3 @@ router.post(
 
 module.exports = router;
 
-//strict rate limit error
-//This is the classic arrow-function trap: () => rateLimiter({...}) (no braces) auto-returns the expression. () => { rateLimiter({...}) } (with braces) requires an explicit return.
