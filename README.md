@@ -2,7 +2,7 @@
 
 A drop-in proxy that caps what your Gemini API key can spend — with safety guardrails included.
 
-I built this after getting a shock bill on a shared Gemini key as a fresher, with no idea what had actually happened. This is the tool I wish I'd had in front of that key.
+The API to save user from getting massive api bill, User can keep close eye on prompt token spend can set max budget limit and soft budget limit and get alerted when hitting any of it.
 
 ## What it does
 
@@ -10,19 +10,13 @@ I built this after getting a shock bill on a shared Gemini key as a fresher, wit
 - **Soft-limit warnings** — get flagged (response header + payload) once you cross a threshold, before you hit the wall.
 - **Exact-match caching** — repeat prompts don't cost you twice.
 - **Accurate cost tracking** — counts *all* billed tokens, including model "thinking" tokens that some tools miss.
-- **Rate limiting** — per-user/IP sliding window, so a burst can't blow through your budget either.
+- **Rate limiting** — per-user/IP sliding window, limit is set for requests allowed per minute.
 - **Prometheus metrics** — `/metrics` endpoint out of the box, plug into your existing dashboard.
-
-## What it's not (yet)
-
-This is v1, scoped deliberately narrow. It does **not** currently include jailbreak detection or PII redaction — those are on the roadmap as opt-in add-ons, not silently missing. If you need those today, this isn't the right tool yet.
-
-It's also Gemini-only for now. Multi-provider support (OpenAI, Anthropic, etc.) is a planned direction, not a current feature.
 
 ## Quickstart
 
 ```bash
-git clone https://github.com/yourusername/gemini-spend-guard.git
+git clone https://github.com/namratagite13/gemini-spend-guard.git  
 cd gemini-spend-guard
 cp .env.example .env
 # edit .env: add your GEMINI_API_KEY
@@ -50,7 +44,7 @@ All config lives in `.env` — see `.env.example` for the full list. Key ones:
 | Variable | Default | What it does |
 |---|---|---|
 | `GEMINI_API_KEY` | *(required)* | Your real Gemini API key |
-| `PROXY_KEY` | *(unset)* | Optional shared key. Unset = trusted/local mode, no auth. Set this before exposing the proxy anywhere shared or public. |
+| `PROXY_KEY` | *(unset)* | Optional shared key. |
 | `DEFAULT_MONTHLY_BUDGET_USD` | `10.00` | Hard cap — requests blocked once spend reaches this |
 | `SOFT_LIMIT_THRESHOLD_RATIO` | `0.50` | Warn once spend crosses this fraction of the budget |
 | `USE_MOCK_GEMINI` | `false` | Set `true` to test the whole pipeline without hitting the real API or spending anything |
@@ -61,8 +55,6 @@ All config lives in `.env` — see `.env.example` for the full list. Key ones:
 request → access control → validate payload → rate limit → spend cap check
         → cache check → Gemini call → track spend → respond (+ warning if near limit)
 ```
-
-Cheaper checks run before expensive ones — a malformed or over-budget request never reaches the Gemini API at all.
 
 ## Monitoring
 
