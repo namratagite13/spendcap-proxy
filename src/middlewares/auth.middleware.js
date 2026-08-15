@@ -18,7 +18,7 @@ const requireApiKey = (req, res, next) =>{
         return res.status(401).json({
             success: false,
             error: 'Unauthorized',
-            message: 'Missing or invalid X-APi_key header.'
+            message: 'Missing or invalid x-api-key header.'
         });
     } 
     req.user = {id: 'default'}  ;
