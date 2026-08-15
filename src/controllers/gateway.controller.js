@@ -84,7 +84,7 @@ const respondWithFreshResults = (res, result, usage, warning, startTime) =>{
 
 
 const handleGenerate = async(req, res, next) =>{
-    console.log('!!!!!!!!!!!! HANDLE GENERATE WAS CALLED !!!!!!!!!!!!');
+
     const startTime = Date.now();
 
     try{
