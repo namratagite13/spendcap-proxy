@@ -24,15 +24,7 @@ docker compose up --build
 That's it — Redis and the app both start, wired together automatically.
 
 ```bash
-curl http://localhost:3000/health
-```
-
-Send a request:
-```bash
-curl -X POST http://localhost:3000/v1/ai/generate \
-  -H "Content-Type: application/json" \
-  -H "X-API-Key: your-proxy-key" \
-  -d '{"prompt":"hello there"}'
+curl http://localhost:8080/health
 ```
 
 ## Configuration
@@ -99,7 +91,8 @@ Leave both unset and the proxy behaves exactly as if this didn't exist — no br
 ```bash
 npm install
 # requires a local Redis instance — redis-server, or docker run -p 6379:6379 redis:alpine
-node src/server.js
+node src/server.js OR
+npm run dev
 ```
 
 ## Contributing
