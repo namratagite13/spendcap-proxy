@@ -19,7 +19,7 @@ const isRetryableError = (error) => {
 };
 
 const generateGeminiResponse = async ({ prompt, modelName = 'gemini-flash-latest' }) => {
-    // -------------------------------------------------------------
+    
     if (process.env.USE_MOCK_GEMINI === 'true') {
         logger.info('[GeminiService] Using MOCK Gemini response (Local Test Mode)');
         

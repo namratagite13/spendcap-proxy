@@ -12,7 +12,7 @@ const { getSoftLimitUSD } = require('../utils/budgetMath');
 const trackExecutionSpend = async(userId, costMetrics) =>{
     try{
         const redisKey = `user:budget:${userId}`;
-        logger.info(`[Budget Service] DEBUG using key: ${redisKey}`);
+
         const addedCost = costMetrics.estimatedCostUsd || 0;
         const addedTokens = costMetrics.totalTokenCount || 0;
 

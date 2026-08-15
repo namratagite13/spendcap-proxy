@@ -51,8 +51,7 @@ const triggerSoftLimitAlert = async (userId, spendData) => {
             };
             await postWebhook(config.ALERT_WEBHOOK_URL, payload);
         }
-        logger.info(`[BudgetAlert] DEBUG webhookUrl=${config.ALERT_WEBHOOK_URL}`);
-
+       
         await redisClient.set(alertFlagKey, 'true', { EX: ALERT_SUPPRESSION_TTL_SECONDS });
     } catch (error) {
         logger.error(`[BudgetAlert] Failed to process alert for ${userId}`, {
@@ -87,7 +86,7 @@ const triggerHardLimitAlert = async (userId, spendData) => {
             };
             await postWebhook(webhookUrl, payload);
         }
-        logger.info(`[BudgetAlert] DEBUG webhookUrl=${config.ALERT_WEBHOOK_URL_CRITICAL}`);
+       
 
         await redisClient.set(alertFlagKey, 'true', { EX: ALERT_SUPPRESSION_TTL_SECONDS });
     } catch (error) {

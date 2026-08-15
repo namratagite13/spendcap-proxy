@@ -6,6 +6,7 @@ const { config } = require('../config/env');
 const {triggerHardLimitAlert} = require('../services/budgetAlert.service')
 const logger = require('../config/logger');
 const { getSoftLimitUSD, getPercentUSD } = require('../utils/budgetMath');
+const { error } = require('winston');
 
 const checkSpendCap = async (req, res, next ) =>{
     try{
@@ -20,7 +21,6 @@ const checkSpendCap = async (req, res, next ) =>{
             return next()
         }
 
-        logger.info(`[SpendCap] DEBUG userBudgetRaw: ${userBudgetRaw}`);
 
         const { currentSpendUSD = 0 } = JSON.parse(userBudgetRaw);
         const maxBudgetUSD = config.DEFAULT_MONTHLY_BUDGET_USD;
@@ -38,8 +38,11 @@ const checkSpendCap = async (req, res, next ) =>{
             return res.status(402).json({
                 success: false,
                 error: 'Monthly budget cap exceeded',
-                message: `Your account has reached its monthly spend limit of $${maxBudgetUSD.toFixed(2)}`,
+                message: `This request was blocked. Your account has reached its monthly spend limit of $${maxBudgetUSD.toFixed(2)} — no further requests will be processed until your budget resets or is increased.`,
                 code: 'MONTHLY_BUDGET_EXCEEDED',
+                currentSpendUSD,
+                maxBudgetUSD,
+                
             });
         }
 
