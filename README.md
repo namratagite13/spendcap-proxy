@@ -14,7 +14,7 @@ A drop-in proxy that caps what your Gemini API key can spend — hard budget lim
 ## Quickstart
 
 ```bash
-git clone https://github.com/namratagite13/gemini-spend-guard.git  
+git clone https://github.com/namratagite13/spendcap-proxy.git  
 cd gemini-spend-guard
 cp .env.example .env
 # edit .env: add your GEMINI_API_KEY
