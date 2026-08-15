@@ -1,3 +1,11 @@
+
+
+https://github.com/user-attachments/assets/e6f99e96-8da2-4b1f-9d72-03f4030b77bc
+
+
+
+
+
 # gemini-spend-guard
 
 A drop-in proxy that caps what your Gemini API key can spend — hard budget limits, soft-limit alerts, and caching, so a shared key can't blow your bill.  
