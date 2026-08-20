@@ -29,7 +29,6 @@ const logger = winston.createLogger({
         }),
         new winston.transports.File({ filename: 'app.log' }),
         // Save all logs to app.log and errors to error.log
-        new winston.transports.File({ filename: 'app.log' }),
         new winston.transports.File({ filename: 'error.log', level: 'error' }),
         
     ]

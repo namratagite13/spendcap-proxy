@@ -61,7 +61,7 @@ const generateGeminiResponse = async ({ prompt, modelName = 'gemini-flash-latest
 
                     // Calculating and Record Token Metrics
                     const usage = response.usageMetadata || {};
-                    logger.info(`[GeminiService] DEBUG raw usageMetadata: ${JSON.stringify(usage)}`);
+                    
                     const tokenMetrics = calculateTokenMetrics(usage, modelName);
 
                     llmTokenUsageTotal.inc({model: modelName, token_type: 'prompt' }, tokenMetrics.promptToken|| 0);

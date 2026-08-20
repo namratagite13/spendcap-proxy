@@ -107,7 +107,7 @@ const handleGenerate = async(req, res, next) =>{
         };
 
         const updateBudget = await recordSpend(req.user?.id, usage);
-        logger.info(`[Gateway] DEBUG updateBudget=${JSON.stringify(updateBudget)}`);
+        
         const warning = buildSoftLimitWarning(updateBudget);
         notifyIfWarning(req.user?.id, warning);
 
