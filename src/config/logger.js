@@ -19,16 +19,14 @@ const logger = winston.createLogger({
            format: process.env.NODE_ENV === 'development' ? 
            winston.format.combine(
            winston.format.colorize(),
-            winston.format.printf(
-                ({timestamp, level, message, stack}) => 
-                `[${timestamp}] ${level} : ${stack || message}`
-
-            )
+           winston.format.printf(
+            ({timestamp, level, message, stack}) => 
+            `[${timestamp}] ${level} : ${stack || message}`
+        )
         )
            : winston.format.json()
         }),
         new winston.transports.File({ filename: 'app.log' }),
-        // Save all logs to app.log and errors to error.log
         new winston.transports.File({ filename: 'error.log', level: 'error' }),
         
     ]

@@ -87,7 +87,6 @@ const triggerHardLimitAlert = async (userId, spendData) => {
             await postWebhook(webhookUrl, payload);
         }
        
-
         await redisClient.set(alertFlagKey, 'true', { EX: ALERT_SUPPRESSION_TTL_SECONDS });
     } catch (error) {
         logger.error(`[BudgetAlert] Failed to process hard-limit alert for ${userId}`, {

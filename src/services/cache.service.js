@@ -9,11 +9,11 @@ const { cacheHitsTotal } = require('../config/metrics');
 const CACHE_TTL_SECONDS = 86400 //24 hr;
 const CACHE_PREFIX = 'cache:prompt:' ;
 
-const buildCacheKey = (prompt , modelName) =>{
+const buildCacheKey = (prompt, modelName) =>{
     const normalized = prompt.trim().toLowerCase();
     const hash = crypto.createHash('sha256').update(`${modelName} : ${normalized}`).digest('hex');
 
-    return `${CACHE_PREFIX} : ${hash}`;
+    return `${CACHE_PREFIX}:${hash}`;
 };
 
 const getCachedResponse = async (prompt, modelName) =>{

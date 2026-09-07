@@ -1,60 +1,55 @@
 
 
-const rateLimiter = require('express-rate-limit');
-const {RedisStore} = require('rate-limit-redis')
-const {redisClient, connectRedis} = require('../config/redis')
-const logger = require('../config/logger');
+const rateLimit = require('express-rate-limit');
 
-const safeSendCommand = async (...args) =>{
-    if(!redisClient.isOpen){
-        await connectRedis();
-    }
+const { ipKeyGenerator } = require('express-rate-limit');
 
-    return redisClient.sendCommand(args)
-};
+const { RedisStore } = require('rate-limit-redis');
+const {  redisClient } = require('../config/redis.js');
 
-const keyGenerator = (req, res) =>{
-    if(req.user?.id) return req.user.id;
-    return rateLimiter.ipKeyGenerator(req, res);
-};
+const logger = require('../config/logger.js');
 
-const rateLimitHandler = (req, res) => {
-    const identifier = keyGenerator(req, res);
-
-    logger.warn(`Rate limit exceeded for ${identifier}` , {
-        ip: req.ip,
-        path: req.originalUrl
-    });
-    res.status(429).json({
-        status: false,
-        error: 'Too many requests. Please tru again later.'
-    });
-};
-
-const buildRateLimiter = ({windowMs, max, prefix}) =>{
-    return rateLimiter({
+const createLimiter = ({windowMs, max, prefix}) =>{
+   
+    return rateLimit({
         windowMs,
         max,
         standardHeaders: true,
         legacyHeaders: false,
-        passOnStoreError: true, // avoid blocking app traffic if Redis goes down
-        keyGenerator,
-        store: new RedisStore({sendCommand: safeSendCommand, prefix}),
-        handler: rateLimitHandler
+        passOnStoreError: true,
+        keyGenerator: (req) => req.user?.id || ipKeyGenerator(req.ip),
+        store : new RedisStore({
+            sendCommand: (...args) => redisClient.sendCommand(args),
+            prefix
+        }),
+        handler: (req, res) =>{
+            logger.warn(`rate limit exceeded for identifier ${req.ip}`, {
+                path: req.originalUrl
+            });
+
+            res.status(429).json({
+                success:false,
+                error: 'Too many requests. please try again later'
+            })
+        }
+
     })
+    
 };
 
-const globalRateLimiter = buildRateLimiter({
+const globalRateLimiter = createLimiter({
     windowMs: 15*60*1000,
     max: 100,
     prefix: 'rl:global'
 });
 
-const strictRateLimiter = buildRateLimiter({
+
+const strictRateLimiter = createLimiter({
     windowMs: 5*60*1000,
     max: 10,
     prefix: 'rl:strict'
 });
+
 
 module.exports = {
     globalRateLimiter,

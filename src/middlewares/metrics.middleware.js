@@ -9,15 +9,17 @@ const {httpRequestsTotal, httpRequestDurationSeconds} = require('../config/metri
 
 const metricsMiddleware = (req, res, next) =>{
 
-    //start histogram timer
+    //start histogram timer  
     const endTimer = httpRequestDurationSeconds.startTimer();
+                     //Performance & Latency Tracking
+
 
     res.on('finish', () =>{             //acts as a callback listener that triggers when Node.js finishes writing the response bytes to the network socket.
         //resolve route path
         // 1. Gather all accurate, final metadata
         const route = req.route ? req.route.path : req.path;
         const labels = {
-            method: req. method,
+            method: req.method,
             route: route,
             status_code: res.statusCode.toString()
         }

@@ -6,14 +6,16 @@ const {config} = require('./env')
 
 const redisClient = createClient({
     url: config.REDIS_URL,
-    RESP: 2,
+    RESP: 2, //redis sterilization protocol
     socket: {
         reconnectStrategy : (retries) =>{
 
+            //retries logic
             if(retries > 10) {
                 logger.error('Redis Max reconnection attempts reached. Stopping reconnect.')
                 return new Error('Redis connection failed')
             }
+            //delayed breathing or recovery time before reconnection
             const delay = Math.min(retries * 100 , 3000);
             logger.warn(`Redis client attempting reconnect in ${delay}ms... (Attempt ${retries})`)
             return delay 
@@ -22,6 +24,7 @@ const redisClient = createClient({
 })
 
 
+//event emitters
 redisClient.on('connect', () =>{
     logger.info('Redis client connecting to server')
 });
@@ -35,6 +38,10 @@ redisClient.on('error', (err) =>{
         error: err.message,
         stack: err.stack
     })
+});
+
+redisClient.on('end', () => {
+    logger.warn('Redis connection closed')
 });
 
 

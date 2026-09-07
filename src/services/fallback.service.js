@@ -23,7 +23,7 @@ const generateFallbackResponse = async (prompt) => {
             isFallback: true,
             tokens: tokenMetrics,
         };
-        } catch (error) {
+    }catch (error){
         logger.error('[FallbackService] Fallback service failed', {
             error: error.message,
             stack: error.stack,

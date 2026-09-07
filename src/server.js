@@ -57,6 +57,15 @@ async function startServer() {
 
     process.on('SIGTERM', () => shutdown('SIGTERM'));
     process.on('SIGINT', () => shutdown('SIGINT'));
+
+    
+
+
+
+
+
+
+
   } catch (error) {
     logger.error('Startup failure:', { error: error.message, stack: error.stack });
     process.exit(1);

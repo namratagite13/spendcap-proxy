@@ -30,7 +30,6 @@ const errorHandler = (err, req, res, next) =>{
     };
 
     //checking if error comes from joi
-
     if(err.isJoi){
         statusCode = 400;
         const formattedErrors = err.details.map((detail) => ({

@@ -37,7 +37,7 @@ const trackExecutionSpend = async(userId, costMetrics) =>{
 
         const now = new Date();
         const endOfMonth = new Date(now.getFullYear(), now.getMonth() +1, 1);
-        const ttlSeconds = Math.floor((endOfMonth.getTime()-now.getTime()) /1000);
+        const ttlSeconds = Math.floor((endOfMonth.getTime()-now.getTime()) / 1000);
 
         await redisClient.set(redisKey, JSON.stringify(budgetState), {EX: ttlSeconds});
 

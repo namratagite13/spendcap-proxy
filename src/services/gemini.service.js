@@ -20,6 +20,7 @@ const isRetryableError = (error) => {
 
 const generateGeminiResponse = async ({ prompt, modelName = 'gemini-flash-latest' }) => {
     
+    //mock gemini trial
     if (process.env.USE_MOCK_GEMINI === 'true') {
         logger.info('[GeminiService] Using MOCK Gemini response (Local Test Mode)');
         
@@ -40,9 +41,6 @@ const generateGeminiResponse = async ({ prompt, modelName = 'gemini-flash-latest
             tokens: tokenMetrics,
         };
     }
-
-
-
 
 
     try {
@@ -94,7 +92,7 @@ const generateGeminiResponse = async ({ prompt, modelName = 'gemini-flash-latest
                 factor: 2,
                 minTimeout: 1000,
                 maxTimeout: 5000,
-                randomize: true,
+                randomize: true, //staggering retry times
                 onRetry: (err, attempt) => {
                     logger.warn(`[GeminiService] Primary model attempt ${attempt} failed. Retrying...`, {
                         error: err.message,
