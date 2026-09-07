@@ -20,8 +20,14 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Intall dependamcies
+      - name: Intall dependencies
+        run: npm install
+
+      - name: Run build
         run: npm run build
+
+      - name: run tests
+        run: npm test
 
         env: 
           NODE_ENV: test
